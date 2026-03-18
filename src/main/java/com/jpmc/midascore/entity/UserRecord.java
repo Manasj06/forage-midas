@@ -3,37 +3,61 @@ package com.jpmc.midascore.entity;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class UserRecord {
 
     @Id
-    @GeneratedValue()
-    private long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
+    private String username;
+    private String currency;
     private float balance;
 
-    protected UserRecord() {
+    // REQUIRED BY JPA
+    public UserRecord() {
     }
 
-    public UserRecord(String name, float balance) {
-        this.name = name;
+    // REQUIRED BY TESTS (String, float)
+    public UserRecord(String username, float balance) {
+        this.username = username;
+        this.currency = "USD";
         this.balance = balance;
     }
 
-    @Override
-    public String toString() {
-        return String.format("User[id=%d, name='%s', balance='%f'", id, name, balance);
+    // REQUIRED BY TESTS (String, String, float)
+    public UserRecord(String username, String currency, float balance) {
+        this.username = username;
+        this.currency = currency;
+        this.balance = balance;
     }
 
     public Long getId() {
         return id;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getName() {
-        return name;
+        return username;
+    }
+
+    public void setName(String name) {
+        this.username = name;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public float getBalance() {
@@ -42,5 +66,10 @@ public class UserRecord {
 
     public void setBalance(float balance) {
         this.balance = balance;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("User[id=%s, username='%s', balance='%f']", id, username, balance);
     }
 }
